@@ -8,7 +8,8 @@ import { config } from "dotenv";
 config();
 
 import passport from "./passport.config.js";
-import { getLogin } from "./controller/admin.controller.js";
+import publicRoutes from "./routes/public.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
 
 mongoose.set("strictQuery", true);
 mongoose
@@ -41,7 +42,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 
-app.get("/", getLogin);
+app.use("/admin", adminRoutes(passport));
+app.get('/logout', function (req, res){
+  req.session.destroy(function (err) {
+    res.redirect('/admin');
+  });
+});
+app.use("/", publicRoutes);
 
 app.listen(process.env.PORT || 8000, process.env.HOST || "localhost", () => {
   console.log(

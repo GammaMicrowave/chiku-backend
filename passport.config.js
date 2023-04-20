@@ -11,7 +11,7 @@ passport.use(
     ) {
       return done(null, "ADMIN");
     }
-    return done(null, false, { message: "Incorrect username or password." });
+    return done(null, false);
   })
 );
 

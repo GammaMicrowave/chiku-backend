@@ -15,9 +15,11 @@ let orderSchema = Schema(
     totalPrice: Number,
     address: String,
     phoneNumber: String,
-    deliveryInstructions: String,
+    // deliveryInstructions: String,
     status: String,
     email: String,
+    name: String,
+    pincode: String,
   },
   {
     timestamps: true,
