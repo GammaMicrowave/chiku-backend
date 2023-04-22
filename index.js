@@ -44,9 +44,10 @@ app.set("view engine", "ejs");
 
 app.use("/admin", adminRoutes(passport));
 app.get('/logout', function (req, res){
-  req.session.destroy(function (err) {
-    res.redirect('/admin');
-  });
+  if(req.session){
+    req.session=null;
+  }
+  res.redirect('/admin');
 });
 app.use("/", publicRoutes);
 
