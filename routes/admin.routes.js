@@ -1,30 +1,36 @@
 import { Router } from "express";
 import * as controller from "../controller/admin.controller.js";
 
-
 export default function adminRouter(passport) {
-    const router = Router();
+  const router = Router();
 
-    function authRequired(req, res, next) {
-        if (req.isAuthenticated()) {
-            return next();
-        }
-        res.redirect("/admin");
+  function authRequired(req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
     }
-    
-    router.get("/home", authRequired, controller.getHome);
-    router.get("/items", authRequired, controller.getItems);
+    res.redirect("/admin");
+  }
 
-    router.post("/new-item", authRequired, controller.createItem);
-    router.post("/update-item", authRequired, controller.updateItem);
-    router.post("/delete-item", authRequired, controller.deleteItem);
+  router.get("/home", authRequired, controller.getHome);
+  router.get("/items", authRequired, controller.getItems);
+  router.get("/orders", controller.getOrder);
 
-    router.get("/", controller.getLogin);
-    router.post("/", passport.authenticate("local", {
-        successRedirect: "/admin/home",
-        failureRedirect: "/admin"
-    }));
+  router.post("/new-item", authRequired, controller.createItem);
+  router.post("/update-item", authRequired, controller.updateItem);
+  router.post("/delete-item", authRequired, controller.deleteItem);
+  
+  router.post("/accept-order", authRequired, controller.acceptOrder);
+  router.post("/reject-order", authRequired, controller.rejectOrder);
+  router.post('/deliver-order', authRequired, controller.deliveredOrder);
+  router.get("/", controller.getLogin);
+  router.post(
+    "/",
+    passport.authenticate("local", {
+      successRedirect: "/admin/home",
+      failureRedirect: "/admin",
+    })
+  );
+  
 
-    return router;
+  return router;
 }
-

@@ -23,8 +23,6 @@ export const createOrder = async (req, res) => {
   // console.log(req.body);
 
   if (!items || !address || !phoneNumber || !email || !name || !pinCode) {
-    console.log(req.body);
-
     return res.status(400).json({ error: "All fields are required" });
   }
 
@@ -32,8 +30,20 @@ export const createOrder = async (req, res) => {
   items.map((item) => {
     totalPrice += item.price * item.amount;
   });
+  let today = new Date();
+  let latestOrder = await Order.findOne({
+    createdAt: {
+      $gte: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
+    },
+  }).sort({ createdAt: -1 });
+
+  let id = 101;
+  if (latestOrder) {
+    id = latestOrder.id + 1;
+  }
 
   const query = {
+    id,
     items: items.map((item) => {
       return {
         details: item.id,
