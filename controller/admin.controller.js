@@ -2,12 +2,13 @@ import Item from "../models/item.model.js";
 import Order from "../models/order.model.js";
 import nodemailer from "nodemailer";
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
+  host: "smtp.chikufoods.in",
   port: 587,
   auth: {
     user: process.env.MAIL_EMAIL,
     pass: process.env.MAIL_PASSWORD,
   },
+  secure: true,
 });
 
 export const getLogin = (req, res) => {
@@ -178,8 +179,8 @@ Your order has been accepted.
 Your order id is : ${data.id},
 Your order amount is : ${data.totalPrice},
 Your order was created at : ${orderDate.getDate()}-${
-  orderDate.getMonth() + 1
-}-${orderDate.getFullYear()} ${orderDate.getHours()}:${orderDate.getMinutes()}
+      orderDate.getMonth() + 1
+    }-${orderDate.getFullYear()} ${orderDate.getHours()}:${orderDate.getMinutes()}
 Please contact us at ${process.env.CONTACT_NUMBER} for more details.
 We will deliver it soon. Thank you for choosing us.`,
   };
@@ -206,8 +207,8 @@ Your order has been delivered successfully.
 Your order id is : ${data.id},
 Your order amount is : ${data.totalPrice},
 Your order was created at : ${orderDate.getDate()}-${
-  orderDate.getMonth() + 1
-}-${orderDate.getFullYear()} ${orderDate.getHours()}:${orderDate.getMinutes()}
+      orderDate.getMonth() + 1
+    }-${orderDate.getFullYear()} ${orderDate.getHours()}:${orderDate.getMinutes()}
 Please contact us at ${process.env.CONTACT_NUMBER} for more details.
 Thank you for choosing us.`,
   };
