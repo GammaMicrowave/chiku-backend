@@ -3,7 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
-import session from "express-session";
+import session from "cookie-session";
 import { config } from "dotenv";
 config();
 
